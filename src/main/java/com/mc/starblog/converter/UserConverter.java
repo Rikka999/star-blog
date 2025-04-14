@@ -6,7 +6,7 @@ import org.springframework.beans.BeanUtils;
 
 public class UserConverter {
 
-    public static UserBaseInfoVO toVo(User user) {
+    public static UserBaseInfoVO toBaseInfoVo(User user) {
         UserBaseInfoVO userBaseInfoVO = new UserBaseInfoVO();
         BeanUtils.copyProperties(user, userBaseInfoVO);
         userBaseInfoVO.setMaskedPhoneNumber(maskPhone(user.getPhoneNumber()));

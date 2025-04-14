@@ -3,6 +3,7 @@ package com.mc.starblog.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 @Data
+@ToString(exclude = "users")
 public class Role {
 
     @Id
@@ -22,10 +24,5 @@ public class Role {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
-
-    @Override
-    public int hashCode() {
-        return (id != null) ? id.hashCode() : 0;
-    }
 
 }

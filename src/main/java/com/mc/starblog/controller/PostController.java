@@ -29,7 +29,7 @@ public class PostController {
     )
     @GetMapping("/{id}")
     public Result<PostBaseInfoVO> getPostById(@PathVariable Long id) {
-        return Result.success(PostConverter.toVo(postService.findById(id)));
+        return Result.success(PostConverter.toBaseInfoVo(postService.findById(id)));
     }
 
     @Operation(
@@ -42,7 +42,7 @@ public class PostController {
     )
     @PostMapping
     public Result<PostBaseInfoVO> createPost(@RequestBody PostBaseInfoDTO postBaseInfoDTO) {
-        return Result.success(PostConverter.toVo(postService.createPost(postBaseInfoDTO)));
+        return Result.success(PostConverter.toBaseInfoVo(postService.createPost(postBaseInfoDTO)));
     }
 
     @Operation(
@@ -55,7 +55,7 @@ public class PostController {
     )
     @PutMapping("/{id}")
     public Result<PostBaseInfoVO> updatePost(@PathVariable Long id, @RequestBody PostBaseInfoDTO postBaseInfoDTO) {
-        return Result.success(PostConverter.toVo(postService.updatePost(id, postBaseInfoDTO)));
+        return Result.success(PostConverter.toBaseInfoVo(postService.updatePost(id, postBaseInfoDTO)));
     }
 
     @Operation(
@@ -71,4 +71,6 @@ public class PostController {
         postService.deletePost(id);
         return Result.success();
     }
+
+
 }

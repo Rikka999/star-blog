@@ -1,7 +1,9 @@
 package com.mc.starblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @SQLDelete(sql = "UPDATE posts SET is_deleted = true, deleted_time = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "is_deleted = false")
+@ToString(exclude = "user")
 public class Post {
 
     @Id
@@ -26,6 +29,7 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JsonIgnore
     private User user;
 
     @Column(name = "title", nullable = false, length = 255, columnDefinition = "VARCHAR(255) COMMENT '标题'")

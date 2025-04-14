@@ -41,8 +41,6 @@ public class AuthService {
     }
 
     public CustomUserDetails loginUser(LoginDTO request) {
-
-        System.out.println("========loginUser=========");
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -50,7 +48,6 @@ public class AuthService {
                             request.getPassword()
                     )
             );
-            System.out.println("========Authentication=========");
             return (CustomUserDetails) authentication.getPrincipal();
         } catch (AuthenticationException e) {
             if (e instanceof BadCredentialsException) {
