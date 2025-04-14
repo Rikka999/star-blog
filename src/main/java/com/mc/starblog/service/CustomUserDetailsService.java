@@ -17,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new CustomUserDetails(userRepository.findByUsernameWithRoles(username)
-                .orElseThrow(() -> new BusinessException(400,"用户不存在")));
+                .orElseThrow(() -> new BusinessException(400,"用户Token验证失败")));
     }
 }

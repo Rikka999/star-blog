@@ -15,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -25,12 +27,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-
+    private static final AntPathMatcher pathMatcher = new AntPathMatcher();
+    private boolean isExcluded(String path) {
+        return List.of(
+                "/api/auth/**",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/api-docs/**",
+                "/docs/**"
+        ).stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 跳过登录和注册接口的 Token 验证
         String path = request.getRequestURI();
-        if (path.startsWith("/api/auth/login") || path.startsWith("/api/auth/register")) {
+        if (isExcluded(path)) {
             filterChain.doFilter(request, response);
             return;
         }
