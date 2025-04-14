@@ -41,11 +41,14 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_roles",                          // 中间表的名称
-            joinColumns = @JoinColumn(name = "user_id"),  // 外键列：指向用户表
-            inverseJoinColumns = @JoinColumn(name = "role_id") // 外键列：指向角色表
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
     @Column(name = "nickname", length = 100, columnDefinition = "VARCHAR(100) COMMENT '昵称'")
     private String nickname;
@@ -73,8 +76,4 @@ public class User {
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE COMMENT '逻辑删除标记'")
     private Boolean isDeleted = false;
 
-    @Override
-    public int hashCode() {
-        return (id != null) ? id.hashCode() : 0;
-    }
 }

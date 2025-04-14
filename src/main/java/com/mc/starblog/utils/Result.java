@@ -11,7 +11,6 @@ public class Result<T> {
     private int code;
     private String message;
     private T data;
-    private Pagination pagination;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private LocalDateTime timestamp; // 响应时间
 
@@ -19,7 +18,6 @@ public class Result<T> {
         this.code = code;
         this.message = message;
         this.data = data;
-        this.pagination = pagination;
         this.timestamp = LocalDateTime.now();
     }
 

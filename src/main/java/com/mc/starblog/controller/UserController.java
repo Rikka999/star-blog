@@ -1,15 +1,22 @@
 package com.mc.starblog.controller;
 
 
+import com.mc.starblog.converter.PostConverter;
 import com.mc.starblog.converter.UserConverter;
 import com.mc.starblog.dto.UserBaseInfoDTO;
+import com.mc.starblog.entity.Post;
+import com.mc.starblog.service.PostService;
 import com.mc.starblog.service.UserService;
+import com.mc.starblog.utils.PageInfo;
 import com.mc.starblog.utils.Result;
+import com.mc.starblog.vo.PostSimpleVO;
 import com.mc.starblog.vo.UserBaseInfoVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping("/{id}")
     @Operation(
@@ -29,8 +37,8 @@ public class UserController {
                     @ApiResponse(responseCode = "400", description = "用户不存在")
             }
     )
-    public Result<UserBaseInfoVO> getUserById(@PathVariable Long id) {
-        return Result.success(UserConverter.toVo(userService.findById(id)));
+    public Result<UserBaseInfoVO> getUserBaseInfoById(@PathVariable Long id) {
+        return Result.success(UserConverter.toBaseInfoVo(userService.findById(id)));
     }
 
     @PutMapping("/{id}")
@@ -43,7 +51,7 @@ public class UserController {
             }
     )
     public Result<UserBaseInfoVO> updateUserBaseInfo(@PathVariable Long id,@RequestBody UserBaseInfoDTO userBaseInfoDTO) {
-        return Result.success(UserConverter.toVo(userService.updateUserBaseInfo(id, userBaseInfoDTO)));
+        return Result.success(UserConverter.toBaseInfoVo(userService.updateUserBaseInfo(id, userBaseInfoDTO)));
     }
 
     @DeleteMapping("/{id}")
@@ -58,5 +66,23 @@ public class UserController {
     public Result<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return Result.success();
+    }
+
+    @GetMapping("/{id}/posts")
+    @Operation(
+            summary = "获取用户发布的文章列表摘要",
+            description = "根据用户id获取用户发布的文章列表摘要",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "返回用户发布的文章"),
+                    @ApiResponse(responseCode = "400", description = "用户不存在")
+            }
+    )
+    public Result<PageInfo<PostSimpleVO>> getUserPostsSimple(
+        @PathVariable Long id,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedTime"));
+        return Result.success(postService.findUserPostByUserId(id, pageRequest));
     }
 }
