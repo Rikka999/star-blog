@@ -1,0 +1,8 @@
+package com.mc.starblog.Repository;
+
+import com.mc.starblog.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+    Post findByUserId(Long userId);
+}

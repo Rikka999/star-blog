@@ -1,6 +1,5 @@
 package com.mc.starblog.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,20 +23,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", length = 50, nullable = false)
+    @Column(name = "username", length = 50, nullable = false, columnDefinition = "VARCHAR(50) COMMENT '用户名'")
     private String username;
 
-    @Column(name = "password", length = 60, nullable = false)
+    @Column(name = "password", length = 60, nullable = false, columnDefinition = "VARCHAR(60) COMMENT '密码'")
     @JsonIgnore
     private String password;
 
-    @Column(name = "sex")
+    @Column(name = "sex", columnDefinition = "TINYINT DEFAULT 4 COMMENT '性别：1男 2女 3其他 4保密'")
     private Integer sex;
 
-    @Column(name = "email", length = 50, unique = true)
+    @Column(name = "email", length = 50, unique = true, columnDefinition = "VARCHAR(50) COMMENT '邮箱'")
     private String email;
 
-    @Column(name = "phone_number", length = 50)
+    @Column(name = "phone_number", length = 50, columnDefinition = "VARCHAR(50) COMMENT '手机号码'")
     private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -48,30 +47,30 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
-    @Column(name = "nickname", length = 100)
+    @Column(name = "nickname", length = 100, columnDefinition = "VARCHAR(100) COMMENT '昵称'")
     private String nickname;
 
-    @Column(name = "slogan", length = 100)
+    @Column(name = "slogan", length = 100, columnDefinition = "VARCHAR(100) COMMENT '签名'")
     private String slogan;
 
-    @Column(name = "profile_picture_url", length = 2083)
+    @Column(name = "profile_picture_url", length = 2083, columnDefinition = "VARCHAR(2083) COMMENT '头像url'")
     private String profilePictureUrl;
 
-    @Column(name = "homepage_picture_url", length = 2083)
+    @Column(name = "homepage_picture_url", length = 2083, columnDefinition = "VARCHAR(2083) COMMENT '主页背景url'")
     private String homepagePictureUrl;
 
     @CreationTimestamp
-    @Column(name = "created_time", updatable = false)
+    @Column(name = "created_time", updatable = false, columnDefinition = "DATETIME COMMENT '创建时间'")
     private LocalDateTime createdTime;
 
     @UpdateTimestamp
-    @Column(name = "updated_time")
+    @Column(name = "updated_time", columnDefinition = "DATETIME COMMENT '更新时间'")
     private LocalDateTime updatedTime;
 
-    @Column(name = "deleted_time")
+    @Column(name = "deleted_time", columnDefinition = "DATETIME COMMENT '删除时间'")
     private LocalDateTime deletedTime;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE COMMENT '逻辑删除标记'")
     private Boolean isDeleted = false;
 
     @Override
