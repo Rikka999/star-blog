@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/docs",
                                 "/api-docs",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/api/common/oss/upload-token"
                         ).permitAll()
                         .requestMatchers("/admin","/zzx").hasRole("ADMIN")
                         .anyRequest().authenticated()

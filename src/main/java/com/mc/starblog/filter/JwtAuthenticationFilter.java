@@ -34,7 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/api-docs/**",
-                "/docs/**"
+                "/docs/**",
+                "/api/common/oss/upload-token"
         ).stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
     }
     @Override
