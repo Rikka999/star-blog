@@ -2,14 +2,10 @@ package com.mc.starblog.service;
 
 import com.mc.starblog.Repository.UserRepository;
 import com.mc.starblog.dto.UserBaseInfoDTO;
-import com.mc.starblog.entity.Post;
 import com.mc.starblog.entity.User;
 import com.mc.starblog.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor

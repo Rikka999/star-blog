@@ -14,7 +14,7 @@ public class Result<T> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private LocalDateTime timestamp; // 响应时间
 
-    private Result(int code, String message, T data, Pagination pagination) {
+    private Result(int code, String message, T data ) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -22,22 +22,19 @@ public class Result<T> {
     }
 
     public static  Result<Void> success() {
-        return new Result<>(200, "success", null, null);
+        return new Result<>(200, "success", null);
     }
 
     public static  Result<Void> success(String message) {
-        return new Result<>(200, message, null, null);
+        return new Result<>(200, message, null);
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<>(200, "success", data, null);
+        return new Result<>(200, "success", data);
     }
 
     public static <T> Result<T> error(int code, String message) {
-        return new Result<>(code, message, null, null);
+        return new Result<>(code, message, null);
     }
 
-    public static <T> Result<T> paginated(T data, Pagination pagination) {
-        return new Result<>(200, "success", data, pagination);
-    }
 }

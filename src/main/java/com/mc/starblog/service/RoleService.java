@@ -2,13 +2,13 @@ package com.mc.starblog.service;
 
 import com.mc.starblog.Repository.RoleRepository;
 import com.mc.starblog.entity.Role;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleService {
 
     private final RoleRepository roleRepository;
