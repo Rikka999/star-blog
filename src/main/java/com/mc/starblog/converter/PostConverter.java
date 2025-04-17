@@ -19,6 +19,7 @@ public class PostConverter {
     public static PostSimpleVO toSimpleVo(Post post) {
         PostSimpleVO postSimpleVO = new PostSimpleVO();
         BeanUtils.copyProperties(post, postSimpleVO);
+        postSimpleVO.setUser(UserConverter.toSimpleVo(post.getUser()));
         return postSimpleVO;
     }
 

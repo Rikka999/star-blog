@@ -2,6 +2,7 @@ package com.mc.starblog.converter;
 
 import com.mc.starblog.entity.User;
 import com.mc.starblog.vo.UserBaseInfoVO;
+import com.mc.starblog.vo.UserSimpleVO;
 import org.springframework.beans.BeanUtils;
 
 public class UserConverter {
@@ -18,5 +19,11 @@ public class UserConverter {
             return phone;
         }
         return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+    }
+
+    public static UserSimpleVO toSimpleVo(User user) {
+        UserSimpleVO userSimpleVO = new UserSimpleVO();
+        BeanUtils.copyProperties(user, userSimpleVO);
+        return userSimpleVO;
     }
 }

@@ -26,4 +26,12 @@ public class PostSimpleVO {
     @Schema(description = "点赞数")
     private Integer likeCount;
 
+    @Schema(description = "浏览量")
+    private Integer viewCount;
+
+    @Schema(description = "评论数")
+    private Integer commentCount;
+
+    private UserSimpleVO user;
+
 }
