@@ -9,7 +9,7 @@ import com.mc.starblog.exception.BusinessException;
 import com.mc.starblog.utils.PageInfo;
 import com.mc.starblog.utils.SummaryUtil;
 import com.mc.starblog.vo.PostSimpleVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
 
@@ -56,6 +56,12 @@ public class PostService {
     public Post findById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(400, "帖子不存在！"));
+    }
+
+    public PageInfo<PostSimpleVO> findPage(PageRequest pageRequest) {
+        Page<Post> postPage = postRepository.findAll(pageRequest);
+        List<PostSimpleVO> postsToSimpleVOs = PostConverter.postsToSimpleVOs(postPage.getContent());
+        return new PageInfo<>(postsToSimpleVOs, postPage.getNumber(), postPage.getSize(), postPage.getTotalPages(), postPage.getTotalElements(), postPage.isLast());
     }
 
     public PageInfo<PostSimpleVO> findUserPostByUserId(Long userId, PageRequest pageRequest) {

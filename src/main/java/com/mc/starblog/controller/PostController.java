@@ -3,12 +3,16 @@ package com.mc.starblog.controller;
 import com.mc.starblog.converter.PostConverter;
 import com.mc.starblog.dto.PostBaseInfoDTO;
 import com.mc.starblog.service.PostService;
+import com.mc.starblog.utils.PageInfo;
 import com.mc.starblog.utils.Result;
 import com.mc.starblog.vo.PostBaseInfoVO;
+import com.mc.starblog.vo.PostSimpleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -70,6 +74,21 @@ public class PostController {
     public Result<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return Result.success();
+    }
+
+    @Operation(
+            summary = "获取文章列表",
+            description = "获取文章列表",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "返回帖子数据"),
+                    @ApiResponse(responseCode = "400", description = "获取失败")
+            }
+    )
+    @GetMapping("/")
+    public Result<PageInfo<PostSimpleVO>> getPostList(@RequestParam(defaultValue = "0") Integer page,
+                                                     @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updatedTime"));
+        return Result.success(postService.findPage(pageRequest));
     }
 
 
