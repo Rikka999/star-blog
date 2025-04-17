@@ -36,6 +36,10 @@ public class AuthService {
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setNickname(registerDTO.getNickname());
+        user.setSex(registerDTO.getSex());
+        user.setEmail(registerDTO.getEmail());
+        user.setPhoneNumber(registerDTO.getPhoneNumber());
+        user.setProfilePictureUrl(registerDTO.getProfilePictureUrl());
         user.getRoles().add(role);
         return userRepository.save(user);
     }
