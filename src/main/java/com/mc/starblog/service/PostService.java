@@ -70,4 +70,11 @@ public class PostService {
         return new PageInfo<>(postsToSimpleVOs, postPage.getNumber(), postPage.getSize(), postPage.getTotalPages(), postPage.getTotalElements(), postPage.isLast());
     }
 
+    public void increasePostViews(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setViewCount(post.getViewCount() + 1);
+        postRepository.save(post);
+    }
+
 }

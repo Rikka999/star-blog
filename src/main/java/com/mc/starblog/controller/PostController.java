@@ -33,6 +33,7 @@ public class PostController {
     )
     @GetMapping("/{id}")
     public Result<PostBaseInfoVO> getPostById(@PathVariable Long id) {
+        postService.increasePostViews(id);
         return Result.success(PostConverter.toBaseInfoVo(postService.findById(id)));
     }
 
