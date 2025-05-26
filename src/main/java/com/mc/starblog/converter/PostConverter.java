@@ -13,6 +13,7 @@ public class PostConverter {
     public static PostBaseInfoVO toBaseInfoVo(Post post) {
         PostBaseInfoVO postBaseInfoVO = new PostBaseInfoVO();
         BeanUtils.copyProperties(post, postBaseInfoVO);
+        postBaseInfoVO.setUser(UserConverter.toSimpleVo(post.getUser()));
         return postBaseInfoVO;
     }
 

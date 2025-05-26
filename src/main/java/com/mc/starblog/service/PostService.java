@@ -72,7 +72,7 @@ public class PostService {
 
     public void increasePostViews(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new BusinessException(400, "帖子不存在！"));
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
     }

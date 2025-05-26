@@ -55,4 +55,6 @@ public class PostBaseInfoVO {
 
     @Schema(description = "点赞数")
     private Integer likeCount = 0;
+
+    private UserSimpleVO user;
 }
