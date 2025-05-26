@@ -22,6 +22,9 @@ public class LoginVO {
     @Schema(description = "用户昵称")
     private String nickname;
 
+    @Schema(description = "用户头像url")
+    private String profilePictureUrl;
+
     @Schema(description = "用户角色列表")
     private List<String> roles;
 }

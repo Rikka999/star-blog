@@ -58,4 +58,8 @@ public class CustomUserDetails implements UserDetails {
         return user.getNickname();
     }
 
+    public String getProfilePictureUrl() {
+        return user.getProfilePictureUrl();
+    }
+
 }
