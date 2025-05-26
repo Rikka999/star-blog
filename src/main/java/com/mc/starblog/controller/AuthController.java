@@ -62,6 +62,7 @@ public class AuthController {
                 .token(token)
                 .username(customUserDetails.getUsername())
                 .nickname(customUserDetails.getNickname())
+                .profilePictureUrl(customUserDetails.getProfilePictureUrl())
                 .roles(customUserDetails.getAuthorities().stream()
                         .map(auth -> auth.getAuthority().replace("ROLE_", "")) // 去除ROLE_前缀
                         .toList())
