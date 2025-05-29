@@ -55,9 +55,9 @@ public class AuthService {
             return (CustomUserDetails) authentication.getPrincipal();
         } catch (AuthenticationException e) {
             if (e instanceof BadCredentialsException) {
-                throw new BusinessException(401, "用户名或密码错误");
+                throw new BusinessException(1002, "用户名或密码错误");
             } else if (e instanceof LockedException) {
-                throw new BusinessException(403, "账户已被锁定");
+                throw new BusinessException(1003, "账户已被锁定");
             } else {
                 throw new BusinessException(401, "认证失败：" + e.getMessage());
             }

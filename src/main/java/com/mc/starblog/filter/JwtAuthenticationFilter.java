@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            sendErrorResponse(response, 401, "未提供Token");
+            sendErrorResponse(response, 401, "Token已过期或无效");
             return;
         }
 
@@ -66,8 +66,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } else {
-                    sendErrorResponse(response, 401, "Token 已过期或无效");
-                    logger.warn("Token 已过期或无效");
+                    sendErrorResponse(response, 401, "Token已过期或无效");
+                    logger.warn("Token已过期或无效");
                     return;
                 }
             }
@@ -77,7 +77,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         } catch (Exception e) {
             logger.error("JWT 验证失败", e);
-            sendErrorResponse(response, 401, "无效的 Token");
+            sendErrorResponse(response, 401, "Token已过期或无效");
             return;
         }
         filterChain.doFilter(request, response);
