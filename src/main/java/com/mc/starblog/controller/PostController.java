@@ -89,7 +89,23 @@ public class PostController {
     public Result<PageInfo<PostSimpleVO>> getPostList(@RequestParam(defaultValue = "0") Integer page,
                                                      @RequestParam(defaultValue = "10") Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updatedTime"));
-        return Result.success(postService.findPage(pageRequest));
+        return Result.success(postService.findAllByPage(pageRequest));
+    }
+
+    @Operation(
+            summary = "搜索文章",
+            description = "搜索文章",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "返回帖子数据"),
+                    @ApiResponse(responseCode = "400", description = "搜索失败")
+            }
+    )
+    @GetMapping("/search")
+    public Result<PageInfo<PostSimpleVO>> searchPost(@RequestParam String keyword,
+                                                    @RequestParam(defaultValue = "0") Integer page,
+                                                    @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updatedTime"));
+        return Result.success(postService.searchPost(keyword, pageRequest));
     }
 
 

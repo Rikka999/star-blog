@@ -6,13 +6,17 @@ import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "posts")
+@Table(
+        name = "posts",
+        indexes = {
+                @Index(name = "idx_post_title", columnList = "title")
+        }
+)
 @Data
 @SQLDelete(sql = "UPDATE posts SET is_deleted = true, deleted_time = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "is_deleted = false")
@@ -79,7 +83,7 @@ public class Post {
     @Column(name = "created_time", updatable = false, columnDefinition = "DATETIME COMMENT '创建时间'")
     private LocalDateTime createdTime;
 
-    @UpdateTimestamp
+//    @UpdateTimestamp
     @Column(name = "updated_time", columnDefinition = "DATETIME COMMENT '更新时间'")
     private LocalDateTime updatedTime;
 
