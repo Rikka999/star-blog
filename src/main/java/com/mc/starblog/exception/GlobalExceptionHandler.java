@@ -22,6 +22,6 @@ public class GlobalExceptionHandler {
     // 处理其他未捕获异常
     @ExceptionHandler(Exception.class)
     public Result<?> handleGlobalException(Exception e) {
-        return Result.error(500, "服务器繁忙");
+        return Result.error(500, "服务器繁忙或出现问题:"+e.getMessage());
     }
 }
