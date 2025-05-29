@@ -2,17 +2,13 @@ package com.mc.starblog.service;
 
 
 import com.mc.starblog.Repository.PostRepository;
-import com.mc.starblog.Repository.UserRepository;
 import com.mc.starblog.converter.PostConverter;
 import com.mc.starblog.dto.PostBaseInfoDTO;
 import com.mc.starblog.entity.Post;
-import com.mc.starblog.entity.User;
 import com.mc.starblog.exception.BusinessException;
-import com.mc.starblog.utils.HtmlUtil;
 import com.mc.starblog.utils.PageInfo;
 import com.mc.starblog.utils.SummaryUtil;
 import com.mc.starblog.vo.PostSimpleVO;
-import com.mc.starblog.vo.UserSimpleVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
