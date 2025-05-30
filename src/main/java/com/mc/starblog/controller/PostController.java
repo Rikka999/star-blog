@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Tag(name = "文章管理", description = "文章相关操作")
 public class PostController {
@@ -31,7 +31,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "帖子不存在")
             }
     )
-    @GetMapping("/{id}")
+    @GetMapping("/posts/{id}")
     public Result<PostBaseInfoVO> getPostById(@PathVariable Long id) {
         postService.increasePostViews(id);
         return Result.success(PostConverter.toBaseInfoVo(postService.findById(id)));
@@ -45,7 +45,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "创建失败")
             }
     )
-    @PostMapping
+    @PostMapping("/posts")
     public Result<PostBaseInfoVO> createPost(@RequestBody PostBaseInfoDTO postBaseInfoDTO) {
         return Result.success(PostConverter.toBaseInfoVo(postService.createPost(postBaseInfoDTO)));
     }
@@ -58,7 +58,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "修改失败")
             }
     )
-    @PutMapping("/{id}")
+    @PutMapping("/posts/{id}")
     public Result<PostBaseInfoVO> updatePost(@PathVariable Long id, @RequestBody PostBaseInfoDTO postBaseInfoDTO) {
         return Result.success(PostConverter.toBaseInfoVo(postService.updatePost(id, postBaseInfoDTO)));
     }
@@ -71,7 +71,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "删除失败")
             }
     )
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/posts/{id}")
     public Result<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return Result.success();
@@ -85,7 +85,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "获取失败")
             }
     )
-    @GetMapping("/")
+    @GetMapping("/posts/")
     public Result<PageInfo<PostSimpleVO>> getPostList(@RequestParam(defaultValue = "0") Integer page,
                                                      @RequestParam(defaultValue = "10") Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updatedTime"));
@@ -100,7 +100,7 @@ public class PostController {
                     @ApiResponse(responseCode = "400", description = "搜索失败")
             }
     )
-    @GetMapping("/search")
+    @GetMapping("/posts/search")
     public Result<PageInfo<PostSimpleVO>> searchPost(@RequestParam String keyword,
                                                     @RequestParam(defaultValue = "0") Integer page,
                                                     @RequestParam(defaultValue = "10") Integer pageSize) {
@@ -108,5 +108,22 @@ public class PostController {
         return Result.success(postService.searchPost(keyword, pageRequest));
     }
 
+    @GetMapping("/users/{id}/posts")
+    @Operation(
+            summary = "获取用户发布的文章列表摘要",
+            description = "根据用户id获取用户发布的文章列表摘要",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "返回用户发布的文章"),
+                    @ApiResponse(responseCode = "400", description = "用户不存在")
+            }
+    )
+    public Result<PageInfo<PostSimpleVO>> getUserPostsSimple(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedTime"));
+        return Result.success(postService.findUserPostByUserId(id, pageRequest));
+    }
 
 }

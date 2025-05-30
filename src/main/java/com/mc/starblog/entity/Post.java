@@ -61,7 +61,7 @@ public class Post {
     @Column(name = "view_count", columnDefinition = "INT DEFAULT 0 COMMENT '浏览数'")
     private Integer viewCount = 0;
 
-    @Column(name = "like_count", columnDefinition = "INT DEFAULT 0 COMMENT '点赞数'")
+    @Column(name = "like_count", nullable = false, columnDefinition = "INT DEFAULT 0 COMMENT '点赞数'")
     private Integer likeCount = 0;
 
     @Column(name = "allow_comment", columnDefinition = "BOOLEAN DEFAULT TRUE COMMENT '是否允许评论'")

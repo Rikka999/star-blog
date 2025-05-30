@@ -1,34 +1,26 @@
 package com.mc.starblog.controller;
 
 
-import com.mc.starblog.converter.PostConverter;
 import com.mc.starblog.converter.UserConverter;
 import com.mc.starblog.dto.UserBaseInfoDTO;
-import com.mc.starblog.entity.Post;
-import com.mc.starblog.service.PostService;
 import com.mc.starblog.service.UserService;
-import com.mc.starblog.utils.PageInfo;
 import com.mc.starblog.utils.Result;
-import com.mc.starblog.vo.PostSimpleVO;
 import com.mc.starblog.vo.UserBaseInfoVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Tag(name = "用户管理", description = "用户相关相关操作")
 public class UserController {
 
     private final UserService userService;
-    private final PostService postService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     @Operation(
             summary = "获取用户信息",
             description = "根据id获取用户详情",
@@ -41,7 +33,7 @@ public class UserController {
         return Result.success(UserConverter.toBaseInfoVo(userService.findById(id)));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/users/{id}")
     @Operation(
             summary = "修改用户基本信息",
             description = "修改用户的基本信息",
@@ -54,7 +46,7 @@ public class UserController {
         return Result.success(UserConverter.toBaseInfoVo(userService.updateUserBaseInfo(id, userBaseInfoDTO)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     @Operation(
             summary = "删除用户",
             description = "根据id删除用户",
@@ -68,21 +60,4 @@ public class UserController {
         return Result.success();
     }
 
-    @GetMapping("/{id}/posts")
-    @Operation(
-            summary = "获取用户发布的文章列表摘要",
-            description = "根据用户id获取用户发布的文章列表摘要",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "返回用户发布的文章"),
-                    @ApiResponse(responseCode = "400", description = "用户不存在")
-            }
-    )
-    public Result<PageInfo<PostSimpleVO>> getUserPostsSimple(
-        @PathVariable Long id,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size
-    ) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedTime"));
-        return Result.success(postService.findUserPostByUserId(id, pageRequest));
-    }
 }
