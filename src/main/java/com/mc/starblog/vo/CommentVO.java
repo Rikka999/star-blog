@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class CommentVO {
@@ -30,4 +31,11 @@ public class CommentVO {
 
     @Schema(description = "创建时间")
     private LocalDateTime createdTime;
+
+    @Schema(description = "父评论者昵称，仅用于子评论")
+    private String replyToNickname;
+
+    @Schema(description = "子评论列表，仅用于一级评论")
+    private List<CommentVO> children;
+
 }
