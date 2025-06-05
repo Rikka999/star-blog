@@ -3,14 +3,17 @@ package com.mc.starblog.controller;
 
 import com.mc.starblog.converter.UserConverter;
 import com.mc.starblog.dto.UserBaseInfoDTO;
+import com.mc.starblog.dto.UserPasswordDTO;
 import com.mc.starblog.service.UserService;
 import com.mc.starblog.utils.Result;
 import com.mc.starblog.vo.UserBaseInfoVO;
+import com.nimbusds.jose.JOSEException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api")
@@ -44,6 +47,20 @@ public class UserController {
     )
     public Result<UserBaseInfoVO> updateUserBaseInfo(@PathVariable Long id,@RequestBody UserBaseInfoDTO userBaseInfoDTO) {
         return Result.success(UserConverter.toBaseInfoVo(userService.updateUserBaseInfo(id, userBaseInfoDTO)));
+    }
+
+    @PutMapping("/users/{id}/change_password")
+    @Operation(
+            summary = "修改用户密码",
+            description = "修改用户密码",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "修改成功"),
+                    @ApiResponse(responseCode = "400", description = "用户不存在")
+            }
+    )
+    public Result<Void> updateUserPassword(@PathVariable Long id, @RequestBody UserPasswordDTO userPasswordDTO) throws JOSEException {
+        userService.updateUserPassword(id, userPasswordDTO);
+        return Result.success();
     }
 
     @DeleteMapping("/users/{id}")

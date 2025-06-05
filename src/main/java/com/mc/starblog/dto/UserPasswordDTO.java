@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class UserPasswordDTO {
 
-    @Schema(description = "用户id")
-    private Long id;
+    @Schema(description = "旧密码")
+    private String oldPassword;
 
     @Schema(description = "用户密码")
-    private String password;
+    private String newPassword;
 
 }
