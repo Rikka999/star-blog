@@ -18,6 +18,9 @@ public class RegisterDTO {
     @Schema(description = "用户性别 1男 2女 3其他 4保密")
     private Integer sex;
 
+    @Schema(description = "用户个人签名")
+    private String slogan;
+
     @Schema(description = "用户邮箱")
     private String email;
 

@@ -36,6 +36,7 @@ public class AuthService {
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setNickname(registerDTO.getNickname());
+        user.setSlogan(registerDTO.getSlogan());
         user.setSex(registerDTO.getSex());
         user.setEmail(registerDTO.getEmail());
         user.setPhoneNumber(registerDTO.getPhoneNumber());

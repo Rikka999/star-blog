@@ -63,4 +63,8 @@ public class CustomUserDetails implements UserDetails {
         return user.getProfilePictureUrl();
     }
 
+    public String getSlogan() {
+        return user.getSlogan();
+    }
+
 }
