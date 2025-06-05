@@ -120,9 +120,9 @@ public class PostController {
     public Result<PageInfo<PostSimpleVO>> getUserPostsSimple(
             @PathVariable Long id,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int pageSize
     ) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedTime"));
+        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updatedTime"));
         return Result.success(postService.findUserPostByUserId(id, pageRequest));
     }
 
